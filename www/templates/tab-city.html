@@ -1,0 +1,16 @@
+<ion-view view-title="Villes">
+  <ion-content class="padding">
+
+    <ion-list>
+      <a class="item item-avatar" ng-repeat="city in cities" href="#/tab/city/{{city.id}}">
+        <img ng-src="{{city.logo}}">
+        <h2>{{city.name}}</h2>
+        <p>{{city.desc}}</p>
+      </a>
+    </ion-list>
+
+
+
+
+  </ion-content>
+</ion-view>
