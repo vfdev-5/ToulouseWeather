@@ -1,17 +1,7 @@
-angular.module('starter.controllers', [])
 
-.controller('CityCtrl', function($scope, Cities) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-  console.log("CityCtrl inside");
-  $scope.cities = Cities.all();
 
-})
+
+angular.module('starter.controllers.city.detail', [])
 
 .controller('CityDetailCtrl', function($scope, $http, $stateParams, $ionicPopup) {
 
@@ -23,6 +13,8 @@ angular.module('starter.controllers', [])
       template: text
     });
   };
+
+  // Refresh
   $scope.refresh = function() {
     $http.get('http://api.openweathermap.org/data/2.5/forecast/daily?id=' + $scope.id + '&APPID=8eb6e9b0f16cd2d2504e1bd6ea1e707a')
     .success(function(data, status, headers, config) {
@@ -34,7 +26,9 @@ angular.module('starter.controllers', [])
 	  $scope.$broadcast('scroll.refreshComplete');
     });
   };
+
+
+  // Default actions:
   $scope.refresh();
 
-})
-
+});

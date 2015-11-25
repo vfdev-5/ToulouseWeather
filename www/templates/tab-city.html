@@ -1,5 +1,12 @@
-<ion-view view-title="Villes">
-  <ion-content class="padding">
+<ion-view view-title="Liste des villes">
+  <ion-content scroll="false" padding="'true'">
+
+    <form class="list" ng-submit="searchCity(query)">
+      <label style="" name="city_query" class="item item-input">
+        <input placeholder="Choisissez une ville" type="text" ng-model="query.city_name">
+        <button type="submit" class="button icon ion-search placeholder-icon"></button>
+      </label>
+    </form>
 
     <ion-list>
       <a class="item item-avatar" ng-repeat="city in cities" href="#/tab/city/{{city.id}}">
@@ -8,9 +15,6 @@
         <p>{{city.desc}}</p>
       </a>
     </ion-list>
-
-
-
 
   </ion-content>
 </ion-view>
