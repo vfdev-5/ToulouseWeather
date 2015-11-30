@@ -29,6 +29,8 @@
             request_all: request_all,
             get: get_city,
             set: set_city,
+            remove: remove_city,
+            reinit: reinit,
         };
 
         var vm = this;
@@ -37,34 +39,6 @@
         return service;
 
         /////////
-
-//        $localForage.getItem('cities').then(function(data) {
-//            console.log("Get data from local forage : " + data);
-//            cities = data;
-//        });
-
-        //  if (cities === null) {
-        //    console.log("Initialize localforage storage at first launch");
-        //    // initialize localforage storage at first launch:
-        //    cities = [{
-        //      id: 2972315,
-        //      name: 'Toulouse',
-        //      desc: 'Berceau des Airbus',
-        //      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Blason_ville_fr_Toulouse_%28Haute-Garonne%29.svg/73px-Blason_ville_fr_Toulouse_%28Haute-Garonne%29.svg.png'
-        //      }, {
-        //      id: 524901,
-        //      name: 'Москва',
-        //      desc: 'Столица нашей Родины',
-        //      logo: 'http://upload.wikimedia.org/wikipedia/commons/d/da/Coat_of_Arms_of_Moscow.png'
-        //    }];
-        //
-        //    $localForage.setItem(
-        //      'cities',
-        //      cities,
-        //      function(err, result) {
-        //        alert("Failed to store cities in the local storage");
-        //    });
-        //  }
 
         function request_all() {
 
@@ -92,16 +66,13 @@
                             }
                         };
 
-                        $localForage.setItem(
-                            'cities',
-                            data,
-                            function(err, result) {
-                                alert("Failed to store cities in the local storage");
-                            }
-                        );
+                        commit_cities(data);
                         console.log("Initialized data : " + data);
                     }
                     vm.cities = data;
+
+                    debug_display_cities();
+
                     var response = dict_to_array(vm.cities);
                     $rootScope.$broadcast('sendAllCities', response);
                 });
@@ -134,16 +105,54 @@
             };
 
             vm.cities[new_city.id] = new_city;
+            commit_cities(vm.cities);
+        }
 
+        function remove_city(city_id) {
+
+            debug_display_cities();
+            console.log('remove city from DB : id=' + city_id);
+
+            if (typeof vm.cities[city_id] !== "undefined") {
+                var list = dict_to_array(vm.cities);
+                console.log('remove city from DB : count=' + list.length);
+                delete vm.cities[city_id];
+                commit_cities(vm.cities);
+                console.log('remove city from DB : count=' + list.length);
+            } else {
+                console.error('Failed to remove inexisting city');
+            }
+
+            debug_display_cities();
+        }
+
+        function reinit() {
+            console.log('Reinitialize cities in DB');
+            $localForage.clear();
+            vm.cities = null;
+            request_all();
+        }
+
+
+        function commit_cities(cities) {
             $localForage.setItem(
                 'cities',
-                vm.cities,
+                cities,
                 function(err, result) {
                     alert("Failed to store cities in the local storage");
                 }
             );
         }
 
+
+        function debug_display_cities() {
+            console.log('DEBUG : Display cities : ');
+            for (var key in vm.cities) {
+                var city = vm.cities[key];
+                console.log('key=' + key + ' | city : ' + city.id + ', ' + city.name);
+            }
+            console.log('END DEBUG');
+        }
 
     };
 

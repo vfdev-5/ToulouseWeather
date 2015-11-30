@@ -9,6 +9,8 @@ angular.module('starter',
     ['ionic',
     'starter.controllers.cities',
     'starter.controllers.city.detail',
+    'starter.controllers.map',
+    'starter.controllers.options',
     'starter.services.cities'])
 
 .run(function($ionicPlatform) {
@@ -48,7 +50,7 @@ angular.module('starter',
     views: {
       'tab-city': {
         templateUrl: 'templates/tab-city.html',
-        controller: 'CityCtrl'
+        controller: 'CityCtrl as vm'
       }
     }
   })
@@ -58,7 +60,28 @@ angular.module('starter',
     views: {
       'tab-city': {
         templateUrl: 'templates/city-detail.html',
-        controller: 'CityDetailCtrl'
+        controller: 'CityDetailCtrl as vm'
+      }
+    }
+  })
+
+  .state('tab.map', {
+    url: '/map',
+    views: {
+      'tab-map': {
+        templateUrl: 'templates/tab-map.html',
+        controller: 'MapCtrl as vm'
+      }
+    }
+  })
+
+
+  .state('tab.options', {
+    url: '/options',
+    views: {
+      'tab-options': {
+        templateUrl: 'templates/tab-options.html',
+        controller: 'OptionsCtrl as vm'
       }
     }
   })

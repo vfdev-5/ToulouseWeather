@@ -1,37 +1,80 @@
 <ion-view view-title="Liste des villes">
 
-  <ion-content scroll="false" padding="'true'">
 
-    <div>
+    <ion-nav-buttons side="left">
+        <div class="buttons">
+            <button class="button button-icon icon ion-ios-minus-outline"
+                    ng-click="vm.showDelete=!vm.showDelete;vm.showReorder=false;">
+            </button>
+            <button class="button button-icon icon ion-arrow-move" ng-click="vm.showDelete=false;vm.showReorder=!vm.showReorder">
+            </button>
 
-        <button class="button button-icon icon ion-ios-minus-outline"
-          ng-click="data.showDelete = !data.showDelete; data.showReorder = false"></button>
+        </div>
+    </ion-nav-buttons>
+
+    <ion-nav-buttons side="right">
+        <div class="buttons">
+            <button class="button icon ion-search placeholder-icon"
+                    ng-click="vm.openModal()"></button>
+        </div>
+    </ion-nav-buttons>
+
+    <ion-content padding="false">
+
+        <ion-list show-delete="vm.showDelete"
+                  show-reorder="vm.showReorder">
+
+            <ion-item ng-repeat="city in vm.cities"
+                      class="item-thumbnail-left item-remove-animate"
+                      href="#/tab/city/{{city.id}}">
+
+                <ion-delete-button class="ion-minus-circled"
+                                   ng-click="vm.removeCity(city)">
+                </ion-delete-button>
+                <img ng-src="{{city.logo}}">
+                <h2>{{city.name}}</h2>
+                <p>{{city.desc}}</p>
+
+                <ion-reorder-button class="ion-navicon"
+                                    on-reorder="vm.reorderCity(city, $fromIndex, $toIndex)">
+                </ion-reorder-button>
 
 
-      <form class="form-group" ng-submit="searchCity(query)">
+            </ion-item>
+        </ion-list>
 
-        <label style="" name="city_query" class="item item-input">
-          <input placeholder="Choisissez une ville" type="text" ng-model="query.city_name">
-          <button type="submit" class="button icon ion-search placeholder-icon"></button>
-        </label>
-      </form>
 
-    </div>
-
-    <ion-list
-            show-delete="shouldShowDelete"
-            show-reorder="true"
-            can-swipe="true">
-
-      <ion-item ng-repeat="city in cities"
-                class="item-thumbnail-left">
-        <!--<a href="#/tab/city/{{city.id}}"></a>-->
-        <img ng-src="{{city.logo}}">
-        <h2>{{city.name}}</h2>
-        <p>{{city.desc}}</p>
-
-      </ion-item>
-    </ion-list>
-
-  </ion-content>
+    </ion-content>
 </ion-view>
+
+<!--Search city Modal dialog-->
+<script id="search_city_dialog" type="text/ng-template">
+    <ion-modal-view>
+        <ion-header-bar>
+            <h1 class="title">Rechercher une ville</h1>
+        </ion-header-bar>
+        <ion-content>
+
+            <div class="item item-button-right">
+                <label class="title" class="item item-input">
+                    <input placeholder="Choisissez une ville" type="text" ng-model="query.city_name">
+                </label>
+                <button class="button icon ion-search"
+                        ng-click="vm.searchCity(query)"></button>
+            </div>
+
+            <div class="item item-button-right" ng-if="vm.foundCity!=null;">
+                {{ vm.foundCity.name }}
+                <button class="button button-icon ion-ios-plus-outline"
+                        ng-click="vm.addFoundCity()"></button>
+            </div>
+
+            <div class="item" ng-if="vm.scMessage.lenght>0">
+                {{ vm.scMessage }}
+            </div>
+
+            <button class="button button-full button-energized" ng-click="vm.closeModal();vm.foundCity=null;">Done</button>
+
+        </ion-content>
+    </ion-modal-view>
+</script>
