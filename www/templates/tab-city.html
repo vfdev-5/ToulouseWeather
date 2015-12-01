@@ -1,5 +1,4 @@
-<ion-view view-title="Liste des villes">
-
+<ion-view>
 
     <ion-nav-buttons side="left">
         <div class="buttons">
@@ -11,6 +10,10 @@
 
         </div>
     </ion-nav-buttons>
+
+    <ion-nav-title>
+        <h4>Liste des villes</h4>
+    </ion-nav-title>
 
     <ion-nav-buttons side="right">
         <div class="buttons">
@@ -55,16 +58,14 @@
         </ion-header-bar>
         <ion-content>
 
-            <div class="item item-button-right">
-                <label class="title" class="item item-input">
-                    <input placeholder="Choisissez une ville" type="text" ng-model="query.city_name">
-                </label>
-                <button class="button icon ion-search"
+            <div class="item item-input item-button-right">
+                <input placeholder="Tapez le nom d'une ville en anglais" type="text" ng-model="query.city_name">
+                <button class="button-icon ion-search"
                         ng-click="vm.searchCity(query)"></button>
             </div>
 
             <div class="item item-button-right" ng-if="vm.foundCity!=null;">
-                {{ vm.foundCity.name }}
+                Trouvé: {{ vm.foundCity.name }}
                 <button class="button button-icon ion-ios-plus-outline"
                         ng-click="vm.addFoundCity()"></button>
             </div>

@@ -7,11 +7,13 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter',
     ['ionic',
+    'ngCordova',
     'starter.controllers.cities',
     'starter.controllers.city.detail',
     'starter.controllers.map',
     'starter.controllers.options',
-    'starter.services.cities'])
+    'starter.services.lf.cities',
+    ])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {

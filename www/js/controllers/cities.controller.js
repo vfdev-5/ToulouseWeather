@@ -5,9 +5,9 @@
         .module('starter.controllers.cities', [])
         .controller('CityCtrl', CityController);
 
-    CityController.$inject = ['$scope', '$http', '$ionicPopup', 'Cities', '$ionicModal'];
+    CityController.$inject = ['$scope', '$http', '$ionicPopup', 'CitiesLF', '$ionicModal', '$cordovaToast'];
 
-    function CityController($scope, $http, $ionicPopup, Cities, $ionicModal) {
+    function CityController($scope, $http, $ionicPopup, Cities, $ionicModal, $cordovaToast) {
         // With the new view caching in Ionic, Controllers are only called
         // when they are recreated or on app start, instead of every page change.
         // To listen for when this page is active (for example, to refresh data),
@@ -72,17 +72,18 @@
                         if (Cities.get(data.id) == null) {
 
                             vm.foundCity = {
-                                id: data.id,
-                                name: data.name
+                                id: parseInt(data.id),
+                                name: data.name,
+                                desc: "a beautiful city",
+                                logo: 'https://upload.wikimedia.org/wikipedia/en/b/b9/Cool_City_Neighborhood_Logo.png',
+                                lat: parseFloat(data.coord.lat),
+                                lng: parseFloat(data.coord.lon),
                             };
 
                         } else {
-//                            console.log("City is already in the list");
                             vm.scMessage="City is already in the list";
                         }
                     } else {
-//                        $scope.showAlert('La ville n\'est pas trouvé',
-//                        'Malheureusement, la ville \'' + query.city_name +  '\' n\'est pas trouvé dans le service météo.');
                         vm.scMessage='Malheureusement, la ville \'' + query.city_name +  '\' n\'est pas trouvé dans le service météo.';
                     }
 
@@ -97,23 +98,20 @@
 
         function _remove_city(city) {
             console.log('Remove city : ' + city.name + ' | count=' + vm.cities.length);
-            vm.cities
             Cities.remove(city.id);
-            vm.cities.splice(vm.cities.indexOf(city), 1);
+            _request_all_cities();
             console.log('Remove city : ' + city.name + ' | count=' + vm.cities.length);
         };
 
         function _reorder_city(city, fromIndex, toIndex) {
-            vm.cities.splice(fromIndex, 1);
-            vm.cities.splice(toIndex, 0, city);
+            Cities.reorder(city, fromIndex, toIndex);
         };
 
         function _add_found_city() {
             if (vm.foundCity != null) {
-                Cities.set(vm.foundCity.id,
-                        vm.foundCity.name,
-                        "a beautiful city", 'https://upload.wikimedia.org/wikipedia/en/b/b9/Cool_City_Neighborhood_Logo.png');
+                Cities.add(vm.foundCity);
                 _request_all_cities();
+                $cordovaToast.showShortBottom("La ville est ajoutée dans la liste");
             }
         }
 
