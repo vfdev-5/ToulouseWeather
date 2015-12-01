@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('starter.services.sql.cities', [''])
+    angular.module('starter.services.sql.cities', [])
             .factory('CitiesSQL', CitiesService);
 
 

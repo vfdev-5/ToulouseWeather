@@ -13,6 +13,7 @@ angular.module('starter',
     'starter.controllers.map',
     'starter.controllers.options',
     'starter.services.lf.cities',
+    'starter.services.options',
     ])
 
 .run(function($ionicPlatform) {

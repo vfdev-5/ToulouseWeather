@@ -2,8 +2,6 @@
 
     <ion-content scroll="false" padding="false">
 
-
-
         <div class="item">
             <leaflet lf-center="center"
                      layers="layers"
@@ -12,6 +10,21 @@
                      height="200px"
                     >
             </leaflet>
+        </div>
+
+        <div ng-if="vm.hasGeolocation">
+            <div class="item">
+
+            </div>
+        </div>
+        <div ng-if="!vm.hasGeolocation">
+            <div class="item">
+            <div class="item item-input item-button-right">
+                <input placeholder="Saisissez votre ville" type="text" ng-model="query.city_name">
+                <button class="button-icon ion-location"
+                        ng-click="vm.searchCity(query)"></button>
+            </div>
+            </div>
         </div>
 
 

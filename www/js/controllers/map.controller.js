@@ -8,7 +8,7 @@
         })
         .controller('MapCtrl', MapController);
 
-    MapController.$inject = ['$scope', '$http', '$ionicPopup', 'CitiesLF'];
+    MapController.$inject = ['$scope', '$http', '$ionicPopup', 'CitiesLF', '$cordovaGeolocation', 'Options'];
 
     var _osm_layer = {
         name: 'OpenStreetMap',
@@ -48,7 +48,7 @@
         }
     };
 
-    function MapController($scope, $http, $ionicPopup, Cities) {
+    function MapController($scope, $http, $ionicPopup, Cities, $cordovaGeolocation) {
         // With the new view caching in Ionic, Controllers are only called
         // when they are recreated or on app start, instead of every page change.
         // To listen for when this page is active (for example, to refresh data),
@@ -58,6 +58,8 @@
         //});
 
         var vm = this;
+
+        vm.hasGeolocation = false;
 
         // Listen to cities.service
         $scope.$on('sendAllCities', _setup_all_markers);
@@ -79,6 +81,24 @@
             markers: {
             },
         });
+
+        var posOptions = {timeout: 10000, maximumAge: 300, enableHighAccuracy: false};
+        $cordovaGeolocation
+            .getCurrentPosition(posOptions)
+            .then(function (position) {
+                console.log("Get geolocation : lat/lng = " + position.coords.latitude + ", " + position.coords.longitude);
+                $scope.center = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                };
+                vm.hasGeolocation = true;
+
+            }, function(err) {
+              // error
+              console.error('Geo location error');
+        });
+
+
 
         Cities.request_all();
 

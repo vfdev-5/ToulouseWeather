@@ -19,7 +19,8 @@
         var vm = this;
 
         vm.reinit = reinit;
-
+        vm.hasHighAccuracyGPS = false;
+        vm.isMapLimited = false;
 
         // Define local functions
 
