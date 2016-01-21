@@ -3,3 +3,12 @@
 .item-avatar>img:first-child {
 	border-radius: 5%;
 }
+
+#map {
+  width: 100%;
+  height: 200px;
+}
+
+.scroll {
+  height: 100%;
+}

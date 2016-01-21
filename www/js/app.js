@@ -11,6 +11,7 @@ angular.module('starter',
     'starter.controllers.cities',
     'starter.controllers.city.detail',
     'starter.controllers.map',
+    'starter.controllers.googlemap',
     'starter.controllers.options',
     'starter.services.lf.cities',
     'starter.services.options',
@@ -77,6 +78,17 @@ angular.module('starter',
       }
     }
   })
+
+  .state('tab.googlemap', {
+    url: '/googlemap',
+    views: {
+      'tab-googlemap': {
+        templateUrl: 'templates/tab-googlemap.html',
+        controller: 'GoogleMapCtrl as vm'
+      }
+    }
+  })
+
 
 
   .state('tab.options', {

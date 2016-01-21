@@ -1,22 +1,20 @@
-<ion-view view-title="Map">
+<ion-view view-title="Google Map">
 
     <ion-content scroll="false" padding="false">
 
         <div class="item">
-            <leaflet
-                    id="map"
-                    lf-center="center"
-                    layers="layers"
-                    markers="markers"
-                    >
-            </leaflet>
+            <div id="map" data-tap-disabled="true"></div>
+            <a ng-click="vm.centerOnMe()" class="button button-icon icon ion-navigate">Find Me</a>
         </div>
 
         <div ng-if="vm.hasGeolocation">
             <div class="item">
 
+                You are in : {{vm.currentAddress}}
+
             </div>
         </div>
+
         <div ng-if="!vm.hasGeolocation">
             <div class="item">
                 <div class="item item-input item-button-right">

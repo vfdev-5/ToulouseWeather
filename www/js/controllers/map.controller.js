@@ -57,6 +57,8 @@
         //$scope.$on('$ionicView.enter', function(e) {
         //});
 
+        console.log("Leaflet Map controller init");
+
         var vm = this;
 
         vm.hasGeolocation = false;
@@ -90,6 +92,7 @@
                 $scope.center = {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude,
+                    zoom: 8
                 };
                 vm.hasGeolocation = true;
 
